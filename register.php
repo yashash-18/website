@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $email = $_POST['email'];
 
-    // Check if username already exists
+    
     $check_sql = "SELECT * FROM users WHERE username = ?";
     $check_stmt = $conn->prepare($check_sql);
     $check_stmt->bind_param("s", $username);
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($check_result->num_rows > 0) {
         echo "Username already exists. Please choose another.";
     } else {
-        // Check if email already exists
+        
         $email_check_sql = "SELECT * FROM users WHERE email = ?";
         $email_check_stmt = $conn->prepare($email_check_sql);
         $email_check_stmt->bind_param("s", $email);
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($email_check_result->num_rows > 0) {
             echo "Email already registered. Please use a different email.";
         } else {
-            // Insert into database
+            
             $sql = "INSERT INTO users (username, password_hash, email) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sss", $username, $password, $email);
