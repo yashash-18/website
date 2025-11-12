@@ -1,5 +1,5 @@
 <?php
-// db.php
+
 require_once _DIR_ . '/config.php';
 
 try {
