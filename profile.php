@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'config.php'; // file with your MySQL connection, e.g., $conn
+require 'config.php'; 
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Load user info
+
 $stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -19,7 +19,7 @@ $stmt->close();
 
 $success = $error = "";
 
-// Handle form submission
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_username = trim($_POST['username']);
     $new_email = trim($_POST['email']);
@@ -28,13 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($new_username) || empty($new_email)) {
         $error = "Username and Email cannot be empty.";
     } else {
-        // Update username and email
+        
         $stmt = $conn->prepare("UPDATE users SET username = ?, email = ? WHERE id = ?");
         $stmt->bind_param("ssi", $new_username, $new_email, $user_id);
         $stmt->execute();
         $stmt->close();
 
-        // Update password if set
+        
         if (!empty($new_password)) {
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("UPDATE users SET password_hash = ? WHERE id = ?");
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
         }
         $success = "Profile updated successfully!";
-        // Optional: Update session username
+        
         $_SESSION['username'] = $new_username;
         header('Location: newpage.php');
         exit;
