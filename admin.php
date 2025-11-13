@@ -14,7 +14,7 @@ if (isset($_GET['delete']) && $_GET['delete'] != $_SESSION['user_id']) {
     $del_stmt->execute();
     $del_stmt->close();
 
-    // Optional: redirect to avoid resubmission on refresh
+    
     header("Location: admin.php");
     exit;
 }
